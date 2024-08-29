@@ -3,14 +3,14 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io"
 import Tag from "../Tag"
 import { Card, Container, Carousel, CarouselWrapper, Icons, TitleSection } from "./styles"
 import { Movie } from '../../types'
-import { useGetActionMovieQuery } from '../services/api'
+import { useGetSuspenseMovieQuery } from '../services/api'
 
-const Action = () => {
+const Suspense = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [allMovies, setAllMovies] = useState<Movie[]>([])
     const [isHoveredForward, setIsHoveredForward] = useState(false)
     const [isHoveredBackward, setIsHoveredBackward] = useState(false)
-    const { data: movies = [], error, isLoading } = useGetActionMovieQuery()
+    const { data: movies = [], error, isLoading } = useGetSuspenseMovieQuery()
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
     const carouselRef = useRef<HTMLDivElement | null>(null)
 
@@ -99,7 +99,7 @@ const Action = () => {
 
     return (
         <>
-            <TitleSection>Ação</TitleSection>
+            <TitleSection>Suspense</TitleSection>
             <Container>
                 <Icons
                     onMouseEnter={() => setIsHoveredBackward(true)}
@@ -146,4 +146,4 @@ const Action = () => {
     )
 }
 
-export default Action
+export default Suspense

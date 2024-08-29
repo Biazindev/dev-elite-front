@@ -26,10 +26,10 @@ export const Container = styled.div`
     width: 520px;
     height: 48px;
     border-radius: 8px;
-    background-color: ${colors.cinza};
+    background-color: ${colors.preta};
     font-size: 24px;
     padding: 8px;
     padding-left: 48px;
-    list-style: none;
+    border: none;
     }
 `
