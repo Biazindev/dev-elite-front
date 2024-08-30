@@ -1,4 +1,5 @@
 declare export interface Movie {
+    id: number
     title: string
     tmdbId: string
     overview: string
@@ -12,4 +13,3 @@ declare export interface Movie {
     voteCount: number
     genreIds: number[]
   }
-  

@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export type Movie = {
+    isFavorite: boolean
+    id: number
     title: string
     tmdbId: string
     overview: string

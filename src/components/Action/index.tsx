@@ -4,6 +4,7 @@ import Tag from "../Tag"
 import { Card, Container, Carousel, CarouselWrapper, Icons, TitleSection } from "./styles"
 import { Movie } from '../../types'
 import { useGetActionMovieQuery } from '../services/api'
+import { useNavigate } from 'react-router-dom'
 
 const Action = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -13,18 +14,23 @@ const Action = () => {
     const { data: movies = [], error, isLoading } = useGetActionMovieQuery()
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
     const carouselRef = useRef<HTMLDivElement | null>(null)
-
-    const isValidMovie = (movie: Movie) => {
-        const hasImage = movie.thumbnail && movie.thumbnail !== ''
-        return hasImage
-    }
+    const navigate = useNavigate()
 
     useEffect(() => {
-        if (movies.length > 0) {
-            const filteredMovies = movies.filter(isValidMovie)
-            setAllMovies(filteredMovies)
+        if (movies) {
+            const moviesWithId = movies.map((movie, index) => ({
+                ...movie,
+                id: movie.id || index + 1,
+                isFavorite: movie.isFavorite ?? false,
+                tmdbId: String(movie.tmdbId),
+                movie: movie.video ? 'true' : 'false',
+            }))
+            setAllMovies(moviesWithId)
         }
     }, [movies])
+    
+    
+    
 
     useEffect(() => {
         if (isHoveredForward) {
@@ -85,7 +91,7 @@ const Action = () => {
     useEffect(() => {
         if (carouselRef.current) {
             const carousel = carouselRef.current
-            const cardWidth = 100
+            const cardWidth = 160
             const margin = 16
             const totalCards = allMovies.length
 
@@ -113,7 +119,7 @@ const Action = () => {
                 <Carousel>
                     <CarouselWrapper ref={carouselRef} style={{ transform: `translateX(-${currentIndex * (160 + 16)}px)` }}>
                         {allMovies.map((movie: Movie, index: number) => (
-                            <Card key={index}>
+                            <Card onClick={() => navigate(`/details/${movie.tmdbId}`)} key={movie.tmdbId}>
                                 <span>
                                     <Tag value={formatRating(movie.rating)} size={"big"} />
                                 </span>

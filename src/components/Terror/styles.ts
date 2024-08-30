@@ -3,7 +3,7 @@ import { colors } from "../../styles"
 
 
 export const TitleSection = styled.h1`
-    width: 200px;
+    width: 145px;
     border-bottom: 8px solid ${colors.branca};
     padding: 0 56px;
     margin: 24px 0;

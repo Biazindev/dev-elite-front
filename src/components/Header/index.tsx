@@ -1,4 +1,3 @@
-import { colors } from "../../styles"
 import { Container } from "./styles"
 import { PiMagnifyingGlassThin } from "react-icons/pi"
 
