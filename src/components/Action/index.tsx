@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io"
+import { useTranslation } from 'react-i18next'
+import '../../Tradutor'
+import { useNavigate } from 'react-router-dom'
+
+
 import Tag from "../Tag"
 import { Card, Container, Carousel, CarouselWrapper, Icons, TitleSection } from "./styles"
 import { Movie } from '../../types'
 import { useGetActionMovieQuery } from '../services/api'
-import { useNavigate } from 'react-router-dom'
 
 const Action = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -16,8 +20,10 @@ const Action = () => {
     const carouselRef = useRef<HTMLDivElement | null>(null)
     const navigate = useNavigate()
 
+        const { t } = useTranslation()
+
     useEffect(() => {
-        if (movies) {
+        if (movies.length) {
             const moviesWithId = movies.map((movie, index) => ({
                 ...movie,
                 id: movie.id || index + 1,
@@ -26,20 +32,15 @@ const Action = () => {
                 movie: movie.video ? 'true' : 'false',
             }))
             setAllMovies(moviesWithId)
+            console.log('Filmes carregados:', moviesWithId)
         }
     }, [movies])
-    
-    
-    
 
     useEffect(() => {
-        if (isHoveredForward) {
+        if (isHoveredForward || isHoveredBackward) {
             intervalRef.current = setInterval(() => {
-                handleNext()
-            }, 1000)
-        } else if (isHoveredBackward) {
-            intervalRef.current = setInterval(() => {
-                handlePrev()
+                if (isHoveredForward) handleNext()
+                if (isHoveredBackward) handlePrev()
             }, 1000)
         } else {
             if (intervalRef.current) {
@@ -47,6 +48,7 @@ const Action = () => {
                 intervalRef.current = null
             }
         }
+
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current)
@@ -76,15 +78,10 @@ const Action = () => {
     }
 
     const getDescription = (descricao: string) => {
-        if (descricao.length > 12) {
-            return descricao.slice(0, 9) + '...'
-        }
-        return descricao
+        return descricao.length > 12 ? descricao.slice(0, 9) + '...' : descricao
     }
 
-    const formatRating = (rating: number) => {
-        return parseFloat(rating.toFixed(1))
-    }
+    const formatRating = (rating: number) => parseFloat(rating.toFixed(1))
 
     const placeholderImage = "https://via.placeholder.com/250x350"
 
@@ -98,7 +95,7 @@ const Action = () => {
             const totalWidth = (cardWidth + margin) * totalCards - margin
             carousel.style.width = `${totalWidth}px`
         }
-    }, [allMovies])
+    }, [allMovies.length])
 
     if (isLoading) return <div>Carregando...</div>
     if (error) return <div>Erro ao carregar os filmes</div>
@@ -118,8 +115,10 @@ const Action = () => {
                 </Icons>
                 <Carousel>
                     <CarouselWrapper ref={carouselRef} style={{ transform: `translateX(-${currentIndex * (160 + 16)}px)` }}>
-                        {allMovies.map((movie: Movie, index: number) => (
-                            <Card onClick={() => navigate(`/details/${movie.tmdbId}`)} key={movie.tmdbId}>
+                        {allMovies.map((movie: Movie) => (
+                            <Card key={movie.id} onClick={() => {
+                                navigate(`/movies/details/${movie.tmdbId}`)
+                            }} >
                                 <span>
                                     <Tag value={formatRating(movie.rating)} size={"big"} />
                                 </span>

@@ -23,6 +23,21 @@ const api = createApi({
         baseUrl: 'http://localhost:8080/api/movies',
     }),
     endpoints: (builder) => ({
+        getMovieDetails: builder.query<Movie, string>({
+            query: (tmdbId) => `/details/${tmdbId}`,
+        }),
+        getFavorites: builder.query<Movie[], void>({
+            query: () => '/favorites',
+        }),
+        deleteFavorite: builder.mutation<void, number>({
+            query: (tmdbId) => ({
+                url: `/tmdb/${tmdbId}`,
+                method: 'DELETE',
+            }),
+        }),
+        searchMovies: builder.query<Movie[], string>({
+            query: (query) => `search?query=${encodeURIComponent(query)}`,
+        }),
         getActionMovie: builder.query<Movie[], void>({
             query: () => 'search?query=acao',
         }),
@@ -56,21 +71,37 @@ const api = createApi({
         getFantasyMovie: builder.query<Movie[], void>({
             query: () => 'search?query=fantasia',
         }),
+        addFavorite: builder.mutation<void, Movie>({
+            query: (movie) => ({
+                url: 'favorites',
+                method: 'POST',
+                body: movie,
+            }),
+        }),
+        shareMovie: builder.query<string, void>({
+            query: () => 'share',
+        }),
     }),
 })
 
-export const 
-{ 
-  useGetActionMovieQuery, 
-  useGetAdventureMovieQuery, 
-  useGetComedyMovieQuery, 
-  useGetDramaMovieQuery,
-  useGetFictionMovieQuery,
-  useGetTerrorMovieQuery,
-  useGetAnimationMovieQuery,
-  useGetDocumentariesMovieQuery,
-  useGetWesternMovieQuery,
-  useGetSuspenseMovieQuery,
-  useGetFantasyMovieQuery
+export const {
+    useSearchMoviesQuery,
+    useGetActionMovieQuery, 
+    useGetAdventureMovieQuery, 
+    useGetComedyMovieQuery, 
+    useGetDramaMovieQuery,
+    useGetFictionMovieQuery,
+    useGetTerrorMovieQuery,
+    useGetAnimationMovieQuery,
+    useGetDocumentariesMovieQuery,
+    useGetWesternMovieQuery,
+    useGetSuspenseMovieQuery,
+    useGetFantasyMovieQuery,
+    useGetMovieDetailsQuery,
+    useAddFavoriteMutation,
+    useShareMovieQuery,
+    useGetFavoritesQuery,
+    useDeleteFavoriteMutation,
 } = api
+
 export default api

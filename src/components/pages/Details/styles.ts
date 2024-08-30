@@ -27,6 +27,33 @@ export const Favorite = styled.p`
     display: flex;
 
     span {
-    margin-right: 8px;
+    position: relative;
+    top: 5px;
+    width: 250px;
+    margin-left: 8px;
+    }
+`
+export const Tooltip = styled.div`
+    position: relative;
+    display: inline-block;
+
+    &::after {
+        content: attr(data-tip);
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: black;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease-in-out;
+        white-space: nowrap;
+    }
+
+    &:hover::after {
+        opacity: 1;
     }
 `

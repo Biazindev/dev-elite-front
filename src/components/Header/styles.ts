@@ -15,6 +15,18 @@ export const Container = styled.div`
     ${colors.preta} 100%
   );
 
+  .result {
+    position: 'absolute',
+    height: 'auto',
+    width: '400px',
+    backgroundColor: 'white',
+    color: 'black',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    zIndex: 1000,
+    top: '60px',
+    }
+
     svg {
     font-size: 40px;
     position: relative;
@@ -31,5 +43,21 @@ export const Container = styled.div`
     padding: 8px;
     padding-left: 48px;
     border: none;
+    color: ${colors.branca};
     }
+
+    .loading-indicator {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 400px;
+    background-color: transparent;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 1000;
+    padding: 8px;
+    text-align: center;
+}
+    
 `

@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Movie } from '../../../types'
 import Header from '../../Header'
-import { Container } from './styles'
+import { Container, Tooltip } from './styles'
 import { IoIosArrowBack } from "react-icons/io"
 import { GrShare } from "react-icons/gr"
 import { MdOutlineDelete } from "react-icons/md"
+import { useGetFavoritesQuery, useDeleteFavoriteMutation, useShareMovieQuery } from '../../services/api'
 
 const genreMap: Record<number, string> = {
     28: 'Ação',
@@ -35,26 +34,10 @@ const formatReleaseDate = (date: string) => {
 }
 
 const Favorites = () => {
-    const [favorites, setFavorites] = useState<Movie[]>([])
-    const [isFetching, setIsFetching] = useState(true)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        const fetchFavorites = async () => {
-            try {
-                const response = await fetch('http://localhost:8080/api/movies/favorites')
-                if (!response.ok) throw new Error(`Erro na requisição: ${response.statusText}`)
-                const data = await response.json()
-                setFavorites(data)
-            } catch (error) {
-                console.error('Erro ao buscar filmes favoritos:', error)
-            } finally {
-                setIsFetching(false)
-            }
-        }
-
-        fetchFavorites()
-    }, [])
+    const { data: favorites = [], isLoading, refetch } = useGetFavoritesQuery()
+    const [deleteFavorite] = useDeleteFavoriteMutation()
+    const { refetch: shareMovie } = useShareMovieQuery()
 
     const getGenres = (genreIds: number[]) => {
         return genreIds.map(id => genreMap[id] || 'Desconhecido').join(', ')
@@ -62,48 +45,34 @@ const Favorites = () => {
 
     const handleShareClick = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/movies/share')
-            if (!response.ok) {
-                throw new Error(`Erro na requisição: ${response.statusText}`)
-            }
-            const shareLink = await response.text()
-    
+            const shareLink = await shareMovie().unwrap()
+
             if (navigator.share) {
-                navigator.share({
+                await navigator.share({
                     title: 'Confira meus filmes favoritos!',
                     text: 'Veja esta lista de filmes que estou recomendando!',
                     url: shareLink,
                 })
-                .then(() => console.log('Compartilhamento bem-sucedido!'))
-                .catch((error) => console.error('Erro ao compartilhar:', error))
+                console.log('Compartilhamento bem-sucedido!')
             } else {
-                navigator.clipboard.writeText(shareLink)
-                    .then(() => alert('Link copiado para a área de transferência!'))
-                    .catch((error) => console.error('Erro ao copiar link:', error))
+                await navigator.clipboard.writeText(shareLink)
+                alert('Link copiado para a área de transferência!')
             }
         } catch (error) {
             console.error('Erro ao buscar link de compartilhamento:', error)
         }
     }
 
-    const handleDeleteClick = async (id: number) => {
+    const handleDeleteClick = async (tmdbId: string | number) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/movies/favorites/${id}`, {
-                method: 'DELETE',
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Erro na requisição: ${response.statusText}`);
-            }
-    
-            setFavorites(favorites.filter(movie => movie.id !== id));
-            console.log(`Filme com ID ${id} removido dos favoritos`);
+            await deleteFavorite(Number(tmdbId)).unwrap()
+            refetch()
         } catch (error) {
-            console.error('Erro ao excluir filme dos favoritos:', error);
+            console.error('Erro ao excluir filme dos favoritos:', error)
         }
-    };
-    
-    if (isFetching) {
+    }
+
+    if (isLoading) {
         return <div>Carregando...</div>
     }
 
@@ -126,12 +95,16 @@ const Favorites = () => {
                                 <p>Avaliação: {movie.rating}</p>
                                 <p>Gêneros: {getGenres(movie.genreIds)}</p>
                                 <div style={{ width: '200px', display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
-                                    <GrShare size={24} style={{ cursor: 'pointer', marginLeft: '4px' }} onClick={handleShareClick} />
-                                    <MdOutlineDelete 
-                                        size={32} 
-                                        style={{ cursor: 'pointer', marginLeft: '16px' }} 
-                                        onClick={() => handleDeleteClick(movie.id)} 
-                                    />
+                                    <Tooltip data-tip="Compartilhe">
+                                        <GrShare size={24} style={{ cursor: 'pointer', marginLeft: '4px' }} onClick={handleShareClick} />
+                                    </Tooltip>
+                                    <Tooltip data-tip="Excluir">
+                                        <MdOutlineDelete 
+                                            size={32} 
+                                            style={{ cursor: 'pointer', marginLeft: '16px' }} 
+                                            onClick={() => handleDeleteClick(movie.tmdbId)} 
+                                        />
+                                    </Tooltip>
                                 </div>
                             </div>
                         </div>

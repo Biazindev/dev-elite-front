@@ -1,4 +1,3 @@
-import Action from "../../Action"
 import Adventure from "../../Adventure"
 import Comedy from "../../Comedy"
 import Drama from "../../Drama"
@@ -10,6 +9,7 @@ import Documentaries from "../../Documentaries"
 import Western from "../../Western"
 import Suspense from "../../Suspense"
 import Fantasy from "../../Fantasy"
+import Action from "../../Action"
 
 const Home = () => {
     return (

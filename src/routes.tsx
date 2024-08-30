@@ -6,7 +6,7 @@ import Favorites from './components/pages/Favorites'
 const Rotas = () => (
   <Routes>
     <Route path="/" element={<Home />} />
-    <Route path="/details/:tmdbId" element={<Details />} />
+    <Route path="/movies/details/:tmdbId" element={<Details />} />
     <Route path="/favorites" element={<Favorites />} />
   </Routes>
 )

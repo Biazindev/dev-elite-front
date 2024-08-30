@@ -4,6 +4,7 @@ import Tag from "../Tag"
 import { Card, Container, Carousel, CarouselWrapper, Icons, TitleSection } from "./styles"
 import { Movie } from '../../types'
 import { useGetTerrorMovieQuery } from '../services/api'
+import { useNavigate } from 'react-router-dom'
 
 const Terror = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -13,27 +14,27 @@ const Terror = () => {
     const { data: movies = [], error, isLoading } = useGetTerrorMovieQuery()
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
     const carouselRef = useRef<HTMLDivElement | null>(null)
-
-    const isValidMovie = (movie: Movie) => {
-        const hasImage = movie.thumbnail && movie.thumbnail !== ''
-        return hasImage
-    }
+    const navigate = useNavigate()
 
     useEffect(() => {
-        if (movies.length > 0) {
-            const filteredMovies = movies.filter(isValidMovie)
-            setAllMovies(filteredMovies)
+        if (movies.length) {
+            const moviesWithId = movies.map((movie, index) => ({
+                ...movie,
+                id: movie.id || index + 1,
+                isFavorite: movie.isFavorite ?? false,
+                tmdbId: String(movie.tmdbId),
+                movie: movie.video ? 'true' : 'false',
+            }))
+            setAllMovies(moviesWithId)
+            console.log('Filmes carregados:', moviesWithId)
         }
     }, [movies])
 
     useEffect(() => {
-        if (isHoveredForward) {
+        if (isHoveredForward || isHoveredBackward) {
             intervalRef.current = setInterval(() => {
-                handleNext()
-            }, 1000)
-        } else if (isHoveredBackward) {
-            intervalRef.current = setInterval(() => {
-                handlePrev()
+                if (isHoveredForward) handleNext()
+                if (isHoveredBackward) handlePrev()
             }, 1000)
         } else {
             if (intervalRef.current) {
@@ -41,6 +42,7 @@ const Terror = () => {
                 intervalRef.current = null
             }
         }
+
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current)
@@ -70,29 +72,24 @@ const Terror = () => {
     }
 
     const getDescription = (descricao: string) => {
-        if (descricao.length > 12) {
-            return descricao.slice(0, 9) + '...'
-        }
-        return descricao
+        return descricao.length > 12 ? descricao.slice(0, 9) + '...' : descricao
     }
 
-    const formatRating = (rating: number) => {
-        return parseFloat(rating.toFixed(1))
-    }
+    const formatRating = (rating: number) => parseFloat(rating.toFixed(1))
 
     const placeholderImage = "https://via.placeholder.com/250x350"
 
     useEffect(() => {
         if (carouselRef.current) {
             const carousel = carouselRef.current
-            const cardWidth = 100
+            const cardWidth = 160
             const margin = 16
             const totalCards = allMovies.length
 
             const totalWidth = (cardWidth + margin) * totalCards - margin
             carousel.style.width = `${totalWidth}px`
         }
-    }, [allMovies])
+    }, [allMovies.length])
 
     if (isLoading) return <div>Carregando...</div>
     if (error) return <div>Erro ao carregar os filmes</div>
@@ -112,8 +109,11 @@ const Terror = () => {
                 </Icons>
                 <Carousel>
                     <CarouselWrapper ref={carouselRef} style={{ transform: `translateX(-${currentIndex * (160 + 16)}px)` }}>
-                        {allMovies.map((movie: Movie, index: number) => (
-                            <Card key={index}>
+                        {allMovies.map((movie: Movie) => (
+                            <Card key={movie.id} onClick={() => {
+                                console.log('Navegando para o filme com tmdbId:', movie.tmdbId)
+                                navigate(`/movies/details/${movie.tmdbId}`)
+                            }} >
                                 <span>
                                     <Tag value={formatRating(movie.rating)} size={"big"} />
                                 </span>
