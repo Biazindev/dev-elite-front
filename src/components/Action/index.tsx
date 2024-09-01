@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io"
-import { useTranslation } from 'react-i18next'
-import '../../Tradutor'
 import { useNavigate } from 'react-router-dom'
 
-
-import Tag from "../Tag"
-import { Card, Container, Carousel, CarouselWrapper, Icons, TitleSection } from "./styles"
 import { Movie } from '../../types'
 import { useGetActionMovieQuery } from '../services/api'
+import Loader from '../Loader'
+
+import Tag from "../Tag"
+import * as S from "../../styles"
+
 
 const Action = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -19,8 +19,6 @@ const Action = () => {
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
     const carouselRef = useRef<HTMLDivElement | null>(null)
     const navigate = useNavigate()
-
-        const { t } = useTranslation()
 
     useEffect(() => {
         if (movies.length) {
@@ -97,56 +95,56 @@ const Action = () => {
         }
     }, [allMovies.length])
 
-    if (isLoading) return <div>Carregando...</div>
+    if (isLoading) return <div><Loader /></div>
     if (error) return <div>Erro ao carregar os filmes</div>
 
     return (
         <>
-            <TitleSection>Ação</TitleSection>
-            <Container>
-                <Icons
+            <S.TitleSection>Ação</S.TitleSection>
+            <S.Container>
+                <S.Icons
                     onMouseEnter={() => setIsHoveredBackward(true)}
                     onMouseLeave={() => setIsHoveredBackward(false)}
                 >
-                    <IoIosArrowBack 
-                        onClick={handlePrev} 
-                        size={62} 
+                    <IoIosArrowBack
+                        onClick={handlePrev}
+                        size={62}
                     />
-                </Icons>
-                <Carousel>
-                    <CarouselWrapper ref={carouselRef} style={{ transform: `translateX(-${currentIndex * (160 + 16)}px)` }}>
+                </S.Icons>
+                <S.Carousel>
+                    <S.CarouselWrapper ref={carouselRef} style={{ transform: `translateX(-${currentIndex * (160 + 16)}px)` }}>
                         {allMovies.map((movie: Movie) => (
-                            <Card key={movie.id} onClick={() => {
+                            <S.Card key={movie.id} onClick={() => {
                                 navigate(`/movies/details/${movie.tmdbId}`)
                             }} >
                                 <span>
-                                    <Tag value={formatRating(movie.rating)} size={"big"} />
+                                    <Tag value={formatRating(movie.rating)} size={"small"} />
                                 </span>
-                                <img 
-                                    src={movie.thumbnail || placeholderImage} 
-                                    alt={movie.title} 
+                                <img
+                                    src={movie.thumbnail || placeholderImage}
+                                    alt={movie.title}
                                     onError={(e) => (e.currentTarget.src = placeholderImage)}
                                 />
                                 <p>{getDescription(movie.title)}</p>
                                 <div>
-                                    <h4>Lançamento<br/> {movie.releaseDate}</h4>
-                                    <h4>Popularidade<br/> {movie.popularity}</h4>
+                                    <h4>Lançamento<br /> {movie.releaseDate}</h4>
+                                    <h4>Popularidade<br /> {movie.popularity}</h4>
                                 </div>
                                 <button>Saiba mais</button>
-                            </Card>
+                            </S.Card>
                         ))}
-                    </CarouselWrapper>
-                </Carousel>
-                <Icons
+                    </S.CarouselWrapper>
+                </S.Carousel>
+                <S.Icons
                     onMouseEnter={() => setIsHoveredForward(true)}
                     onMouseLeave={() => setIsHoveredForward(false)}
                 >
-                    <IoIosArrowForward 
-                        onClick={handleNext} 
-                        size={62} 
+                    <IoIosArrowForward
+                        onClick={handleNext}
+                        size={62}
                     />
-                </Icons>
-            </Container>
+                </S.Icons>
+            </S.Container>
         </>
     )
 }

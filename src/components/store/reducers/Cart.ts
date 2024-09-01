@@ -8,7 +8,7 @@ export const store = configureStore({
         movies: moviesReducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({serializableCheck: false,}).concat(api.middleware),
+        getDefaultMiddleware({ serializableCheck: false, }).concat(api.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>

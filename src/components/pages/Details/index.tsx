@@ -1,34 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Movie } from '../../../types'
-import Header from '../../Header'
-import { Container, Favorite, Tooltip } from './styles'
 import { FaRegHeart, FaHeart } from "react-icons/fa"
 import { IoIosArrowBack } from "react-icons/io"
 import { GrShare } from "react-icons/gr"
-import { useGetMovieDetailsQuery, useAddFavoriteMutation } from '../../services/api'
+import { MdOutlineDelete } from "react-icons/md"
 
-const genreMap: Record<number, string> = {
-    28: 'Ação',
-    12: 'Aventura',
-    16: 'Animação',
-    35: 'Comédia',
-    80: 'Crime',
-    99: 'Documentário',
-    18: 'Drama',
-    10751: 'Família',
-    14: 'Fantasia',
-    36: 'História',
-    27: 'Terror',
-    10402: 'Música',
-    9648: 'Mistério',
-    10749: 'Romance',
-    878: 'Ficção Científica',
-    10770: 'Telefilme',
-    53: 'Suspense',
-    10752: 'Guerra',
-    37: 'Faroeste'
-}
+import Loader from '../../Loader'
+import { Movie } from '../../../types'
+import Header from '../../Header'
+import {
+    useGetMovieDetailsQuery,
+    useAddFavoriteMutation,
+    useDeleteFavoriteMutation
+} from '../../services/api'
+
+import * as S from './styles'
+
 
 const formatReleaseDate = (date: string) => {
     const [year, month, day] = date.split('-')
@@ -42,10 +29,12 @@ const Details: React.FC = () => {
     const { tmdbId } = useParams<{ tmdbId: string }>()
     const navigate = useNavigate()
     const [addFavorite] = useAddFavoriteMutation()
+    const [deleteFavorite] = useDeleteFavoriteMutation()
     const { data: movieDetails, isFetching } = useGetMovieDetailsQuery(tmdbId || '')
 
     useEffect(() => {
         if (movieDetails) {
+            console.log('Detalhes do filme:', movieDetails)
             setMovie(movieDetails)
         }
     }, [movieDetails])
@@ -67,13 +56,6 @@ const Details: React.FC = () => {
         }
     }, [movie])
 
-    const getGenres = (genreIds: number[] | undefined) => {
-        if (!genreIds) {
-            return 'Gêneros não disponíveis'
-        }
-        return genreIds.map(id => genreMap[id] || 'Desconhecido').join(', ')
-    }
-
     const handleShareClick = async () => {
         try {
             const url = 'http://localhost:8080/api/movies/share'
@@ -90,8 +72,8 @@ const Details: React.FC = () => {
                     text: 'Veja esta lista de filmes que estou recomendando!',
                     url: shareLink,
                 })
-                .then(() => console.log('Compartilhamento bem-sucedido!'))
-                .catch((error) => console.error('Erro ao compartilhar:', error))
+                    .then(() => console.log('Compartilhamento bem-sucedido!'))
+                    .catch((error) => console.error('Erro ao compartilhar:', error))
             } else {
                 navigator.clipboard.writeText(shareLink)
                     .then(() => alert('Link copiado para a área de transferência!'))
@@ -106,8 +88,6 @@ const Details: React.FC = () => {
         if (movie) {
             try {
                 const url = `http://localhost:8080/api/movies/favorites/${movie.tmdbId}`
-                console.log('URL para adicionar/remover favorito:', url)
-
                 const newFavoriteStatus = !isFavorite
                 setIsFavorite(newFavoriteStatus)
 
@@ -121,63 +101,80 @@ const Details: React.FC = () => {
                     rating: movie.rating,
                     popularity: movie.popularity,
                     voteCount: movie.voteCount,
-                    genreIds: movie.genreIds,
+                    genreIds: movie.genreIds || [],
                     isFavorite: newFavoriteStatus,
                     id: movie.id || 0,
                     adult: movie.adult || false,
                     video: movie.video || false,
                 })
 
-                setMessage(`Filme ${movie.title} ${newFavoriteStatus ? '' : 'adicionado aos favoritos'}`)
+                setMessage(`Filme ${movie.title} ${newFavoriteStatus ? 'adicionado aos favoritos' : 'adicionado aos favoritos'}`)
             } catch (error) {
                 setMessage('Erro ao atualizar status de favorito: ' + error)
             }
         }
     }
 
+    const handleDeleteClick = async (tmdbId: string | number) => {
+        try {
+            await deleteFavorite(Number(tmdbId))
+            setMessage('Filme removido dos favoritos com sucesso.')
+        } catch (error) {
+            setMessage('Erro ao excluir filme dos favoritos.')
+        }
+    }
+
+    const formatRating = (rating: number) => parseFloat(rating.toFixed(1))
+
     if (isFetching) {
-        return <div>Carregando...</div>
+        return <div><Loader /></div>
     }
 
     if (!movie && !isFetching) {
-        return <div>Filme não encontrado...</div>
+        return <div><Loader /></div>
     }
 
     return (
         <>
             <Header />
             <IoIosArrowBack onClick={() => navigate('/')} style={{ marginLeft: '32px', fontSize: '40px', cursor: 'pointer' }} />
-            <Container className='container'>
+            <S.Container className='container'>
                 {movie && (
                     <>
                         <img src={movie.thumbnail || 'https://via.placeholder.com/250x350'} alt={movie.title} />
-                        <div>
+                        <div key={movie.id}>
                             <h1>{movie.title}</h1>
-                            <p>ID do Filme: {movie.tmdbId}</p>
-                            <p>Descrição: {movie.overview}</p>
-                            <p>Data de Lançamento: {formatReleaseDate(movie.releaseDate)}</p>
-                            <p>Popularidade: {movie.popularity}</p>
-                            <p>Quantidade de Votos: {movie.voteCount}</p>
-                            <p>Avaliação: {movie.rating}</p>
-                            <p>Gêneros: {movie.genreIds ? getGenres(movie.genreIds) : 'Gêneros não disponíveis'}</p>
+                            <p>ID do Filme: <span>{movie.tmdbId}</span></p>
+                            <p>Descrição: <span>{movie.overview}</span></p>
+                            <p>Data de Lançamento: <span>{formatReleaseDate(movie.releaseDate)}</span></p>
+                            <p>Popularidade: <span>{movie.popularity}</span></p>
+                            <p>Quantidade de Votos: <span>{movie.voteCount}</span></p>
+                            <p>Avaliação: <span>{formatRating(movie.rating)}</span></p>
                             <div style={{ width: '180px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <Tooltip data-tip="Adicione aos favoritos">
-                                    <Favorite 
+                                <S.Tooltip data-tip="Adicione aos favoritos">
+                                    <S.Favorite
                                         onClick={handleFavoriteClick}
-                                        style={{ color: isFavorite ?'inherit' : 'red', cursor: 'pointer' }}
+                                        style={{ color: isFavorite ? '#ff4d4d' : '#ff4d4d', cursor: 'pointer' }}
                                     >
-                                        {isFavorite ? <FaHeart size={24}/> : <FaRegHeart size={24}/>}
+                                        {isFavorite ? <FaHeart size={24} /> : <FaRegHeart size={24} />}
                                         <span>{message}</span>
-                                    </Favorite>
-                                </Tooltip>
-                                <Tooltip data-tip="Compartilhe">
+                                    </S.Favorite>
+                                </S.Tooltip>
+                                <S.Tooltip data-tip="Excluir">
+                                    <MdOutlineDelete
+                                        size={32}
+                                        style={{ cursor: 'pointer', marginRight: '60px' }}
+                                        onClick={() => handleDeleteClick(movie.tmdbId)}
+                                    />
+                                </S.Tooltip>
+                                <S.Tooltip data-tip="Compartilhe">
                                     <GrShare size={24} style={{ cursor: 'pointer' }} onClick={handleShareClick} />
-                                </Tooltip>
+                                </S.Tooltip>
                             </div>
                         </div>
                     </>
                 )}
-            </Container>
+            </S.Container>
         </>
     )
 }

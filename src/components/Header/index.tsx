@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Container } from './styles'
 import { PiMagnifyingGlassThin } from 'react-icons/pi'
-import { Movie } from '../../types'
+import { IoMdMenu } from 'react-icons/io'
+
 import api from '../services/api'
+
+import * as S from './styles'
 
 const Header: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('')
-    const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>('')
+    const [hasError, setHasError] = useState<boolean>(false)
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
     const navigate = useNavigate()
 
-    const { data: searchResults, isFetching, error } = api.useSearchMoviesQuery(debouncedSearchTerm, {
+    const { error } = api.useSearchMoviesQuery(debouncedSearchTerm, {
         skip: debouncedSearchTerm.trim() === '',
     })
 
@@ -24,53 +27,57 @@ const Header: React.FC = () => {
         }
     }, [searchTerm])
 
-    useEffect(() => {
-        if (selectedMovie) {
-            navigate(`/movies/details/${selectedMovie.tmdbId}`)
+    const handleSearchSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter' && searchTerm.trim()) {
+            navigate(`/results?query=${encodeURIComponent(searchTerm.trim())}`)
             setSearchTerm('')
-            setSelectedMovie(null)
         }
-    }, [selectedMovie, navigate])
+    }
+
+    useEffect(() => {
+        if (error) {
+            setHasError(true)
+        }
+    }, [error])
+
+    useEffect(() => {
+        if (hasError) {
+            alert('Ocorreu um erro ao buscar filmes. Você será redirecionado para a página inicial.')
+            setHasError(false)
+            navigate('/')
+        }
+    }, [hasError, navigate])
+
+    const handleMenuClick = (path: string) => {
+        navigate(path)
+        setIsMenuOpen(false)
+    }
 
     return (
-        <Container>
-            <PiMagnifyingGlassThin />
-            <input
-                placeholder="Busque por filmes, séries, tv e mais..."
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            {searchTerm && !isFetching && searchResults && searchResults.length > 0 && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        height: 'auto',
-                        width: '400px',
-                        backgroundColor: 'transparent',
-                        color: '#fff',
-                        zIndex: 1000,
-                        top: '60px',
-                    }}
-                >
-                    {searchResults.map((movie) => (
-                        <div
-                            key={movie.tmdbId}
-                            onClick={() => setSelectedMovie(movie)}
-                            style={{
-                                padding: '8px',
-                                cursor: 'pointer',
-                                borderBottom: '1px solid #ccc',
-                            }}
-                        >
-                            {movie.title}
-                        </div>
-                    ))}
-                </div>
+        <S.Container>
+            <S.MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                <IoMdMenu size={40} />
+            </S.MenuButton>
+            {isMenuOpen && (
+                <S.Menu>
+                    <S.MenuItem onClick={() => handleMenuClick('/')}>Home</S.MenuItem>
+                    <S.MenuItem onClick={() => handleMenuClick('/genres')}>Gêneros</S.MenuItem>
+                    <S.MenuItem onClick={() => handleMenuClick('/favorites')}>Favoritos</S.MenuItem>
+                </S.Menu>
             )}
-            {isFetching && <div className="loading-indicator">Carregando...</div>}
-            {error && <div>Erro ao buscar filmes</div>}
-        </Container>
+            <div>
+                <S.IconBar>
+                    <PiMagnifyingGlassThin />
+                </S.IconBar>
+                <input
+                    placeholder="Busque por filmes, séries, tv e mais..."
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={handleSearchSubmit}
+                />
+            </div>
+        </S.Container>
     )
 }
 

@@ -1,25 +1,36 @@
 import { styled } from "styled-components"
-import { colors } from "../../styles"
+
+import { breakpoints, colors } from "../../styles"
 
 
 export const TitleSection = styled.h1`
-    width: 180px;
+    width: 340px;
     border-bottom: 8px solid ${colors.branca};
-    padding: 0 56px;
-    margin: 24px 0;
+    padding: 0 0 0 56px;
+    margin: 24px 0 24px;
 `
 
 export const Container = styled.div`
+    margin: 0 auto;
     display: flex;
-    overflow: hidden;
+    flex-wrap: wrap;
+    max-width: 1166px;
+    justify-content: space-around;
+
+     @media(min-width: ${breakpoints.tablet}) {
+        margin: 0 auto;
+        justify-content: center;
+        
+    }
 `
 
 export const Card = styled.div`
-    background-color: ${colors.cinza};
+    background: linear-gradient(135deg, ${colors.preta} 0%, ${colors.cinza} 100%);
+    width: 350px;
     margin: 32px 16px;
     padding: 16px;
     border-radius: 8px;
-    height: 460px;
+    height: 590px;
     cursor: pointer;
     transition: height 0.3s ease-in-out;
     z-index: 1;
@@ -31,41 +42,40 @@ export const Card = styled.div`
     }
 
     img {
-    width: 160px;
+    width: 100%;
     height: 300px;
     border-radius: 8px;
     position: relative;
     top: -32px;
     }
-    span {
-    }
 
-    p {
-    font-size: 16px;
-    font-weight: bold;
-    }
 
-    div {
-    display: flex;
-    padding: 8px 0;
-    justify-content: space-between;
+    >div {
+    display: block;
+    margin-bottom: .6rem;
 
-    h4 {
-        font-weight: 400;
-        font-size: 12px;
+    h3 {
+        font-weight: bold;
+        font-size: 16px;
     }
+        p {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 8px 0;
+    }
+    
     }
 
     button {
     width: 100%;
     height: 32px;
-    background-color: ${colors.preta};
+    background-color: ${colors.yellowButton};
     list-styles: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: bold;
     border: none;
-    color: ${colors.branca};
+    color: ${colors.preta};
     cursor: pointer;
     margin-top: 8px;
     }

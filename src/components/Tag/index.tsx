@@ -1,7 +1,6 @@
+import { PiStarFill } from "react-icons/pi"
+
 import { TagContainer } from './styles'
-import { PiStarFill } from "react-icons/pi";
-
-
 
 export type Props = {
   size?: 'small' | 'big'
@@ -11,7 +10,7 @@ export type Props = {
 
 const Tag = ({ size = 'small', className, value }: Props) => (
   <TagContainer value={value} size={size} className={className}>
-    <div><span><PiStarFill size={20} color={'#FFC312'}/></span>{value}</div>
+    <div><span><PiStarFill /></span><p>{value}</p></div>
   </TagContainer>
 )
 

@@ -1,25 +1,33 @@
 import { styled } from "styled-components"
+
 import { Props } from "."
+
+import { colors } from "../../styles"
 
 
 export const TagContainer = styled.div<Props>`
-    left: 112px;
-    top: 10px;
-    margin-left: 8px;
-    background-color: #000;
+    left: ${props => (props.size === 'small' ? '82px' : '240px')};
+    top: 40px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: ${colors.preta};
     opacity: 90%;
     color: #A3A3A3;
     font-size: 12px;
     font-weight: bold;
     display: flex;
-    width: 40px;
-    height: 26px;
+    width: 78px;
+    height: 50px;
     text-align: center;
     align-items: center;
     position: relative;
     z-index: 1;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 1.0);
+    justify-content: end;
+
+    svg {
+    color: ${colors.yellowButton};
+    font-size: 30px;
+    }
+
 
     div {
     margin: 0 auto;
@@ -27,8 +35,13 @@ export const TagContainer = styled.div<Props>`
     justify-content: center;
     align-items: center;
 
+    p {
+    font-size: 24px;
+    color: ${colors.branca};
+    }
+
     span {
-    font-size: 24px
+    font-size: 32px
     margin-right: 4px;
     }
     }

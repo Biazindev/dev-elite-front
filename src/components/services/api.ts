@@ -26,6 +26,9 @@ const api = createApi({
         getMovieDetails: builder.query<Movie, string>({
             query: (tmdbId) => `/details/${tmdbId}`,
         }),
+        getMovieTopRated: builder.query<Movie[], void>({
+            query: () => `/top-rated`,
+        }),
         getFavorites: builder.query<Movie[], void>({
             query: () => '/favorites',
         }),
@@ -86,9 +89,9 @@ const api = createApi({
 
 export const {
     useSearchMoviesQuery,
-    useGetActionMovieQuery, 
-    useGetAdventureMovieQuery, 
-    useGetComedyMovieQuery, 
+    useGetActionMovieQuery,
+    useGetAdventureMovieQuery,
+    useGetComedyMovieQuery,
     useGetDramaMovieQuery,
     useGetFictionMovieQuery,
     useGetTerrorMovieQuery,
@@ -102,6 +105,7 @@ export const {
     useShareMovieQuery,
     useGetFavoritesQuery,
     useDeleteFavoriteMutation,
+    useGetMovieTopRatedQuery,
 } = api
 
 export default api

@@ -1,16 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { GlobalCss } from './styles'
+import { BrowserRouter as Router } from 'react-router-dom'
+
 import { store } from './components/store/reducers/Cart'
-import Home from './components/pages/Home'
-import Details from './components/pages/Details'
 import Rotas from './routes'
+
+import { GlobalCss } from './styles'
+
 
 const App = () => (
   <Provider store={store}>
     <Router>
       <GlobalCss />
-        <Rotas />
+      <Rotas />
     </Router>
   </Provider>
 )

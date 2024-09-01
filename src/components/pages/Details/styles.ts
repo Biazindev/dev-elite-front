@@ -1,24 +1,42 @@
 import { styled } from "styled-components"
+import { breakpoints, colors } from "../../../styles"
 
 export const Container = styled.div`
     margin: 0 auto;
-    display: flex;
+    display: block;
     justify-content: center;
+    margin-bottom: 80px;
+
+    @media(min-width: ${breakpoints.tablet}) {
+        display: flex;
+    }
 
     img {
-    width: 350px;
-    height: 450px;
+    width: 100%;
+    height: auto;
     object-fit: cover;
     margin-right: 24px;
+
+    @media(min-width: ${breakpoints.tablet}) {
+        width: 350px;
+    }
     }
 
     h1 {
-    margin: 0 0 32px 4px;
+    margin: 0 0 24px 4px;
+    color: ${colors.yellowButton};
     }
 
     p {
-    padding: 8px;
+    margin-bottom: 8px;
     font-weight: 400;
+    color: ${colors.branca};
+
+    span {
+    color: ${colors.blue};
+    margin-left: 8px;
+    line-height: 32px;
+    }
     }
 `
 
@@ -29,7 +47,7 @@ export const Favorite = styled.p`
     span {
     position: relative;
     top: 5px;
-    width: 250px;
+    width: 180px;
     margin-left: 8px;
     }
 `
