@@ -46,9 +46,13 @@ export const Favorite = styled.p`
 
     span {
     position: relative;
-    top: 5px;
-    width: 180px;
+    top: 10px;
+    width: 160px;
     margin-left: 8px;
+
+    @media(min-width: ${breakpoints.tablet}) {
+        width: 190px;
+    }
     }
 `
 export const Tooltip = styled.div`
