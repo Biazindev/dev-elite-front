@@ -42,7 +42,7 @@ const Header: React.FC = () => {
 
     useEffect(() => {
         if (hasError) {
-            alert('Ocorreu um erro ao buscar filmes. Você será redirecionado para a página inicial.')
+            alert('Ocorreu um erro ao buscar filmes. Você será redirecionado para a página home.')
             setHasError(false)
             navigate('/')
         }
