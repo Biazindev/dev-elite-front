@@ -26,15 +26,14 @@ A aplicação fornece um link direto para a lista de favoritos (https://dev-elit
 Node.js e npm (ou yarn) instalados.<br>
 Conta na Vercel para deploy, ou rode localmente.<br>
 
-**Passos para Configuração**<br>
-**Clone o Repositório:**<br>
-git clone https://github.com/seu-usuario/sua-aplicacao-frontend.git<br>
-
+# **Passos para Configuração**<br>
+Clone o Repositório:<br>
+git clone https://github.com/Biazindev/dev-elite-front.git<br>
 **Instalar Dependências:**<br>
 Instale as dependências necessárias com npm ou yarn:<br>
 npm install ou yarn install<br>
 
-**Rodar a Aplicação Localmente:**<br>
+# **Rodar a Aplicação Localmente:**<br>
 Execute o comando para iniciar o servidor de desenvolvimento:<br>
 npm start ou yarn start<br>
 A aplicação estará disponível em http://localhost:3000.<br>
@@ -70,3 +69,10 @@ A Vercel fornecerá uma URL para acessar a aplicação ao vivo.<br>
 **Remover dos Favoritos:** Nos favoritos, clique no botão lixeira para remover um filme da lista.
 
 **Compartilhar Favoritos:** Use o link https://dev-elite-front.vercel.app/favorites para compartilhar a lista com outras pessoas.<br><br>
+
+# **Deploy**
+
+**URL aplicação backend:** https://dev-elite-backend-java.onrender.com
+**URL aplicação frontend:** https://dev-elite-front.onrender.com/
+**URL aplicação frontend:** https://dev-elite-front.vercel.app/
+
