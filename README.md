@@ -1,46 +1,78 @@
-# Getting Started with Create React App
+# **Frontend da Aplicação de Filmes**
+Este é o frontend de uma aplicação de filmes desenvolvida com React e TypeScript, utilizando Redux Toolkit para gerenciamento de estado e Styled Components para estilização. O frontend se integra com um backend Java/Spring Boot para buscar filmes, gerenciar favoritos e compartilhar listas de filmes. A aplicação está hospedada na Vercel e Render, e o backend na Render.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# **Tecnologias Utilizadas**<br>
+**React:** Biblioteca para construção de interfaces de usuário.<br>
+**TypeScript:** Superconjunto de JavaScript que adiciona tipagem estática ao código.<br>
+**Redux Toolkit:** Ferramenta para gerenciamento de estado global da aplicação.<br>
+**Styled Components:** Biblioteca para estilização de componentes com CSS-in-JS.<br>
+**Vercel:** Plataforma para hospedagem do frontend da aplicação.<br>
+**Render:** Plataforma onde o frontend e o backend da aplicação está hospedado.<br>
 
-## Available Scripts
+# **Funcionalidades**<br>
+**Buscar Filmes:** Permite buscar filmes na API do TMDb, exibir resultados e ver detalhes de cada filme.<br>
 
-In the project directory, you can run:
+# **Gerenciar Favoritos:**<br>
 
-### `npm start`
+**Adicionar aos Favoritos:** Os usuários podem adicionar filmes à sua lista de favoritos, que é sincronizada com o backend.<br>
+**Remover dos Favoritos:** É possível remover filmes da lista de favoritos.<br>
+**Ver Lista de Favoritos:** A lista de filmes favoritos é exibida e atualizada em tempo real.<br>
+**Compartilhar Favoritos:** É possivel compartilhar a lista de favoritos.<br>
+A aplicação fornece um link direto para a lista de favoritos (https://dev-elite-front.vercel.app/favorites), que pode ser compartilhado para acessar os favoritos facilmente.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# **Como Configurar e Rodar a Aplicação**<br>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**Pré-requisitos**<br>
+Node.js e npm (ou yarn) instalados.<br>
+Conta na Vercel para deploy, ou rode localmente.<br>
 
-### `npm test`
+# **Passos para Configuração**<br>
+Clone o Repositório:<br>
+git clone https://github.com/Biazindev/dev-elite-front.git<br>
+**Instalar Dependências:**<br>
+Instale as dependências necessárias com npm ou yarn:<br>
+npm install ou yarn install<br>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# **Rodar a Aplicação Localmente:**<br>
+Execute o comando para iniciar o servidor de desenvolvimento:<br>
+npm start ou yarn start<br>
+A aplicação estará disponível em http://localhost:3000.<br>
 
-### `npm run build`
+# **Estrutura do Projeto**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+src/components: Contém os componentes reutilizáveis da aplicação.<br>
+src/styles: Contém estilos globais e temas usando Styled Components.<br>
+src/services: Contém a configuração de chamadas à API e integração com o backend.<br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# **Deploy na Vercel**.<br>
+Conecte o Repositório:<br>
+Acesse o painel da Vercel e clique em "New Project".<br>
+Conecte o repositório do GitHub onde está o frontend.<br>
+Configuração de Build:<br>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+*A Vercel detecta automaticamente um projeto React.*<br>
+Confirme que o comando de build está correto: npm run build ou yarn build.<br>
+Configure as variáveis de ambiente necessárias (como REACT_APP_API_URL).<br>
 
-### `npm run eject`
+# **Deploy:**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Clique em "Deploy" e aguarde o processo ser concluído.<br>
+A Vercel fornecerá uma URL para acessar a aplicação ao vivo.<br>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# **Como Usar a Aplicação**<br>
+**Buscar Filmes:** Use a barra de busca para encontrar filmes. Os resultados são exibidos em uma lista com opções para visualizar detalhes.<br>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Adicionar aos Favoritos:** Clique no botão de coração para adicionar um filme à sua lista de favoritos.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**Visualizar Favoritos:** Acesse a lista de favoritos clicando no link de favoritos. Esta página mostra todos os filmes que foram salvos.
 
-## Learn More
+**Remover dos Favoritos:** Nos favoritos, clique no botão lixeira para remover um filme da lista.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Compartilhar Favoritos:** clique no link de compartilhamento para compartilhar a lista de favoritos com outras pessoas.<br>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# **Deploy**
+
+**URL aplicação backend:** https://dev-elite-backend-java.onrender.com<br>
+**URL aplicação frontend:** https://dev-elite-front.onrender.com/<br>
+**URL aplicação frontend:** https://dev-elite-front.vercel.app/<br><br>
+
