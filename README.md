@@ -59,7 +59,7 @@ Configure as variáveis de ambiente necessárias (como REACT_APP_API_URL).<br>
 Clique em "Deploy" e aguarde o processo ser concluído.<br>
 A Vercel fornecerá uma URL para acessar a aplicação ao vivo.<br>
 
-**Como Usar a Aplicação**<br>
+# **Como Usar a Aplicação**<br>
 **Buscar Filmes:** Use a barra de busca para encontrar filmes. Os resultados são exibidos em uma lista com opções para visualizar detalhes.<br>
 
 **Adicionar aos Favoritos:** Clique no botão de coração para adicionar um filme à sua lista de favoritos.
