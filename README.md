@@ -68,7 +68,7 @@ A Vercel fornecerá uma URL para acessar a aplicação ao vivo.<br>
 
 **Remover dos Favoritos:** Nos favoritos, clique no botão lixeira para remover um filme da lista.
 
-**Compartilhar Favoritos:** Use o link https://dev-elite-front.vercel.app/favorites para compartilhar a lista com outras pessoas.<br><br>
+**Compartilhar Favoritos:** clique no link de compartilhamento para compartilhar a lista de favoritos com outras pessoas.<br><br>
 
 # **Deploy**
 
