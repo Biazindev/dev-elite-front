@@ -68,11 +68,11 @@ A Vercel fornecerá uma URL para acessar a aplicação ao vivo.<br>
 
 **Remover dos Favoritos:** Nos favoritos, clique no botão lixeira para remover um filme da lista.
 
-**Compartilhar Favoritos:** clique no link de compartilhamento para compartilhar a lista de favoritos com outras pessoas.<br><br>
+**Compartilhar Favoritos:** clique no link de compartilhamento para compartilhar a lista de favoritos com outras pessoas.<br>
 
 # **Deploy**
 
-**URL aplicação backend:** https://dev-elite-backend-java.onrender.com
-**URL aplicação frontend:** https://dev-elite-front.onrender.com/
-**URL aplicação frontend:** https://dev-elite-front.vercel.app/
+**URL aplicação backend:** https://dev-elite-backend-java.onrender.com<br>
+**URL aplicação frontend:** https://dev-elite-front.onrender.com/<br>
+**URL aplicação frontend:** https://dev-elite-front.vercel.app/<br><br>
 
