@@ -87,7 +87,7 @@ const Details: React.FC = () => {
     const handleFavoriteClick = async () => {
         if (movie) {
             try {
-                const url = `http://localhost:8080/api/movies/favorites/${movie.tmdbId}`
+                const url = `https://dev-elite-backend-java.onrender.com/api/movies/favorites/${movie.tmdbId}`
                 const newFavoriteStatus = !isFavorite
                 setIsFavorite(newFavoriteStatus)
 

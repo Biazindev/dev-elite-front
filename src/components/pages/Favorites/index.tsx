@@ -27,7 +27,7 @@ const Favorites = () => {
 
     const handleShareClick = async () => {
         try {
-            const url = 'http://localhost:8080/api/movies/share'
+            const url = 'https://dev-elite-backend-java.onrender.com/api/movies/share'
             console.log('URL para compartilhar:', url)
             const response = await fetch(url)
             if (!response.ok) {

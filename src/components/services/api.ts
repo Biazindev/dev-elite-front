@@ -20,7 +20,7 @@ export type Movie = {
 const api = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8080/api/movies',
+        baseUrl: 'https://dev-elite-backend-java.onrender.com/api/movies',
     }),
     endpoints: (builder) => ({
         getMovieDetails: builder.query<Movie, string>({

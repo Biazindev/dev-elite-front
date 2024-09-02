@@ -23,7 +23,7 @@ const initialState: MoviesState = {
 }
 
 export const fetchMovies = createAsyncThunk('movies/fetchMovies', async () => {
-    const response = await fetch('http://localhost:8080/api/movies/search?query=acao')
+    const response = await fetch('https://dev-elite-backend-java.onrender.com/api/movies/search?query=acao')
     return (await response.json()) as Movie[]
 })
 
