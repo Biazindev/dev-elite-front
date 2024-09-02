@@ -114,6 +114,9 @@ export const Menu = styled.div`
 export const MenuItem = styled.div`
     cursor: pointer;
     border-bottom: 1px solid ${colors.cinza};
+    padding: 24px;
+    font-size: 24px;
+    font-weight: bold;
 
 
     &:last-child {

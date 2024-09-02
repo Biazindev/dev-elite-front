@@ -70,7 +70,7 @@ const Header: React.FC = () => {
                     <PiMagnifyingGlassThin />
                 </S.IconBar>
                 <input
-                    placeholder="Busque por filmes, séries, tv e mais..."
+                    placeholder="Busque por filmes"
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}

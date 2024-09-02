@@ -43,7 +43,7 @@ const Details: React.FC = () => {
         if (movie) {
             const checkFavoriteStatus = async () => {
                 try {
-                    const url = `http://localhost:8080/api/movies/favorites/${movie.tmdbId}`
+                    const url = `https://dev-elite-backend-java.onrender.com/api/movies/favorites/${movie.tmdbId}`
                     console.log('URL para verificar favorito:', url)
                     const response = await fetch(url)
                     const isFavorite = await response.json()
@@ -58,7 +58,7 @@ const Details: React.FC = () => {
 
     const handleShareClick = async () => {
         try {
-            const url = 'http://localhost:8080/api/movies/share'
+            const url = 'https://dev-elite-backend-java.onrender.com/api/movies/share'
             console.log('URL para compartilhar:', url)
             const response = await fetch(url)
             if (!response.ok) {
