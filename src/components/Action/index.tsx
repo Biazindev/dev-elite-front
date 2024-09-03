@@ -100,7 +100,7 @@ const Action = () => {
 
     return (
         <>
-            <S.TitleSection>Ação</S.TitleSection>
+            <S.TitleSection style={{width: '130px'}}>Ação</S.TitleSection>
             <S.Container>
                 <S.Icons
                     onMouseEnter={() => setIsHoveredBackward(true)}

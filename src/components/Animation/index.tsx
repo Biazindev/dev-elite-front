@@ -100,7 +100,7 @@ const Animation = () => {
 
     return (
         <>
-            <S.TitleSection>Animação</S.TitleSection>
+            <S.TitleSection style={{width: '200px'}}>Animação</S.TitleSection>
             <S.Container>
                 <S.Icons
                     onMouseEnter={() => setIsHoveredBackward(true)}

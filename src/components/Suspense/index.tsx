@@ -99,7 +99,7 @@ const Suspense = () => {
 
     return (
         <>
-            <S.TitleSection>Suspense</S.TitleSection>
+            <S.TitleSection style={{width: '200px'}}>Suspense</S.TitleSection>
             <S.Container>
                 <S.Icons
                     onMouseEnter={() => setIsHoveredBackward(true)}

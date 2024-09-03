@@ -101,7 +101,7 @@ const Comedy = () => {
 
     return (
         <>
-            <S.TitleSection>Comédia</S.TitleSection>
+            <S.TitleSection style={{width: '200px'}}>Comédia</S.TitleSection>
             <S.Container>
                 <S.Icons
                     onMouseEnter={() => setIsHoveredBackward(true)}
